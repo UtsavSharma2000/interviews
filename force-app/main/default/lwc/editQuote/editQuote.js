@@ -5,8 +5,7 @@
 
 import { LightningElement, api, track } from "lwc";
 import getData from '@salesforce/apex/QuoteDto.quoteDataExchange';
-import {showToastEvent} from 'lightning/platformShowToastEvent';
-
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 export default class EditQuote extends LightningElement {
   @api recordId;
   @track Name;
@@ -36,11 +35,14 @@ export default class EditQuote extends LightningElement {
     getData({recordId: this.recordId, Name: this.Name, startDate: this.startDate, endDate: this.endDate}).then(result =>{
       console.log('Result after clicking save button=> ',result);
 
-      const event = new showToastEvent({
+
+      const evt = new ShowToastEvent({
         title: 'Record Updated',
         message: 'Saved Quote Details',
-      });
-      this.dispatchEvent(event);
+        variant: 'success',
+        mode: 'dismissable'
+    });
+    this.dispatchEvent(evt);
     })
   }
 
